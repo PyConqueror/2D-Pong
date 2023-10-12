@@ -3,8 +3,8 @@
 
 
 // Set ball to center of the board
-// Set paddle_1 (human) to right side and vertically centered
-// Set paddle_2 (AI) to left side and vertically centered
+// Set paddle_1 (AI) to left side and centered (centered vertically in board)
+// Set paddle_2 (human) to right side and centered (centered vertically in board)
 // Set initial ball direction (left or right)
 // Set initial scores to 0 for both human and AI
 // when ball hit the paddle, play bounce sound
@@ -22,6 +22,34 @@
 // game controls:
 // up / down button to control player's paddle (left paddle)
 // create a AI algo to follow ball's vertical position (right paddle)
+
+/*----- constants -----*/
+
+
+/*----- app's state (variables) -----*/
+let scores
+let results
+let winner
+
+/*----- cached element references -----*/
+const player_score = document.querySelector('.player_score')
+const AI_score = document.querySelector('.AI_score')
+const left_paddle = document.querySelector('.paddle_1')
+const right_paddle = document.querySelector('.paddle_2')
+const ball = document.querySelector('.ball')
+/*----- event listeners -----*/
+
+
+/*----- functions -----*/
+init()
+
+function init() {
+    scores = {
+        Player : 0,
+        AI : 0
+    }
+}
+
 
 
 
