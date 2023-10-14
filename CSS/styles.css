@@ -1,5 +1,7 @@
 body {
-    display: flex;
+    font-family: 'Segoe UI';
+    display: flex; /* Flex to make all elements stacked vertically*/
+    flex-direction: column; 
     justify-content: center;
     align-items: center;
     height: 100vh;
@@ -7,14 +9,77 @@ body {
 }
 
 .title {
-    top:10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 600px;
+ 
+}
+.title h1 {
+    flex-grow: 1;
+    text-align: center;
+
+}
+.aivsplayer {
+    display: flex;
+    justify-content: space-between;
+    width: 600px;
+    align-items: center;
+}
+.aivsplayer h2 {
+    font-size: 20px;
+    text-align: center;
+    width: 50%;
+}
+
+.score {
+    width: 600px; 
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    align-items: center;
+}
+
+.ai_score, .player_score {
+    font-size: 20px; 
+    width: 50%;
+    text-align: center;
 }
 
 .board {
+    position: relative;
     background-color: aqua;
     border: 2px solid black;
-    width: 400px;
+    width: 600px;
     height: 400px;
 }
 
+.left_paddle {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    background-color: black;
+    width: 10px;
+    height: 60px;
+}
 
+.right_paddle {
+    position: absolute;
+    top: 50%;
+    right: 0; 
+    background-color: black;
+    width: 10px;
+    height: 60px;
+}
+
+.ball {
+    position: absolute;
+    justify-content: center;
+    background-color: black;
+    width: 10px;
+    height: 10px;
+    top: 50%;
+    left: 50%;
+    border: 2px solid black;
+
+}   
