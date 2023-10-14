@@ -45,7 +45,10 @@ body {
     width: 50%;
     text-align: center;
 }
-
+.play_button {
+    margin: 20px;
+    cursor: pointer;
+}
 .board {
     position: relative;
     background-color: aqua;
