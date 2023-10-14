@@ -25,7 +25,7 @@
 // create a AI algo to follow ball's vertical position (left paddle)
 
 /*----- constants -----*/
-
+const WINNING_SCORE = 10
 
 /*----- app's state (variables) -----*/
 let scores
@@ -68,18 +68,20 @@ function update_score() {
 }
 
 function start_countdown() {
+    play_button.innerText = 'Restart Game' //once button clicked change to Restart Game
     countdown.innerText = 3 //set the initial countdown to 3
     countdown.style.display = 'block' //upon calling make the countdown timer visible on the screen
     let countdown_timer = 3
-
     countdown_initiate() //this function will deduct 1 from the countdown_timer every 1 second
+
     function countdown_initiate(){
         countdown_timer -= 1
         countdown.innerText = countdown_timer
         if (countdown_timer > 0) {
             setTimeout(countdown_initiate, 1000) //check if countdown is not 0, if not call the function again in 1 second
         } else {
-            countdown.style.display = 'none' //hide the countdown timer from the screen 
+            countdown.style.display = 'none'//hide the countdown timer from the screen
+            ball.style.display = 'block' //make ball visible  
         }
     }
 }
