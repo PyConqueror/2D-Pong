@@ -34,17 +34,16 @@ let winner
 
 /*----- cached element references -----*/
 const player_score = document.querySelector('.player_score')
-const AI_score = document.querySelector('.AI_score')
+const AI_score = document.querySelector('.ai_score')
 const left_paddle = document.querySelector('.left_paddle')
 const right_paddle = document.querySelector('.right_paddle')
 const ball = document.querySelector('.ball')
 const play_button = document.querySelector('#start_button')
 const countdown = document.querySelector('.countdown')
 /*----- event listeners -----*/
-play_button.addEventListener('click, init')
+play_button.addEventListener('click', init)
 
 /*----- functions -----*/
-init()
 
 function init() {
     scores = { //upon calling, reset the scores to 0 
@@ -59,7 +58,7 @@ function init() {
 function reset_board() {
     ball.style.top =  '50%' //reset the ball to middle of the board
     ball.style.left = '50%' 
-    left_paddle.style.top = '50%' //reset the paddle to middle of the board
+    left_paddle.style.top = '50%' //reset the paddle to starting position
     right_paddle.style.top = '50%'
 }
 
@@ -77,10 +76,10 @@ function start_countdown() {
     function countdown_initiate(){
         countdown_timer -= 1
         countdown.innerText = countdown_timer
-        if (countdown > 0) {
+        if (countdown_timer > 0) {
             setTimeout(countdown_initiate, 1000) //check if countdown is not 0, if not call the function again in 1 second
         } else {
-            countdown.style.display = 'none' //hide the countdown timer from the screen
+            countdown.style.display = 'none' //hide the countdown timer from the screen 
         }
     }
 }
