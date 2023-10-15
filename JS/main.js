@@ -26,6 +26,7 @@
 
 /*----- constants -----*/
 const WINNING_SCORE = 10
+const PADDLE_SPEED = 10
 
 /*----- app's state (variables) -----*/
 let game_status = 0 //game_status is added to make the render function exit the loop, when restart the game
@@ -47,8 +48,10 @@ const right_paddle = document.querySelector('.right_paddle')
 const ball = document.querySelector('.ball')
 const play_button = document.querySelector('#start_button')
 const countdown = document.querySelector('.countdown')
+
 /*----- event listeners -----*/
 play_button.addEventListener('click', init)
+document.addEventListener('keydown', move_paddle);
 
 /*----- functions -----*/
 
@@ -111,7 +114,7 @@ function render() {
         ball_collision()
         render_ball_position()
         requestAnimationFrame(render) //keep looping the render function 
-    }else {
+    } else {
         return
     }
 }
@@ -132,3 +135,24 @@ function render_ball_position() { //render ball position with x and y axis from 
     ball.style.top = ball_position.y_axis + 'px'
 }
 
+function move_paddle(key) {
+    if (key.code === 'ArrowDown') {
+        move_paddle_down()
+    } else if(key.code === 'ArrowUp') {
+        move_paddle_up()
+    }
+}
+
+function move_paddle_up() {
+    let current_position = right_paddle.offsetTop
+    if (current_position > 0) { //cannot be lesser than 0, if not paddle will exit the board
+        right_paddle.style.top = (current_position - PADDLE_SPEED) + 'px';
+    }
+}
+
+function move_paddle_down() {
+    let current_position = right_paddle.offsetTop //get current paddle position using offsetTop, to get only integer
+    if (current_position + right_paddle.offsetHeight < 400) {  // 400 = board height, offsetHeight to get padding height in integer
+        right_paddle.style.top = (current_position + PADDLE_SPEED) + 'px'
+    } // if paddle current position added with paddle_speed(10) is greater than 400, it will not move
+}
