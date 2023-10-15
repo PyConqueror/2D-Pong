@@ -1,30 +1,37 @@
+@import url('https://fonts.googleapis.com/css2?family=Pixelify+Sans&family=Poiret+One&display=swap');
+
 body {
-    font-family: 'Segoe UI';
+    font-family:'Pixelify Sans', sans-serif;
     display: flex; /* Flex to make all elements stacked vertically*/
     flex-direction: column; 
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: white;
+    background-image: url('../PICTURE/background.png');
+    background-position: center;
+    
 }
 
 .title {
     display: flex;
-    justify-content: space-between;
     align-items: center;
     width: 600px;
+    justify-content: center;
  
 }
 .title h1 {
-    flex-grow: 1;
+    font-size: 70px;
     text-align: center;
-
+    margin-bottom: 0;
+    color: aquamarine;
 }
+
 .aivsplayer {
     display: flex;
     justify-content: space-between;
     width: 600px;
     align-items: center;
+    color: aquamarine;
 }
 .aivsplayer h2 {
     font-size: 20px;
@@ -44,6 +51,7 @@ body {
     font-size: 20px; 
     width: 50%;
     text-align: center;
+    color: aquamarine;
 }
 .play_button {
     margin: 20px;
@@ -51,10 +59,13 @@ body {
 }
 .board {
     position: relative;
-    background-color: aqua;
+    background-color: rgb(149, 18, 149);
     border: 2px solid black;
     width: 600px;
     height: 400px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 1.5);
+
 }
 .countdown {
     position: absolute;
@@ -72,6 +83,7 @@ body {
     background-color: black;
     width: 10px;
     height: 60px;
+    border-radius: 5px;
 }
 
 .right_paddle {
@@ -81,17 +93,17 @@ body {
     background-color: black;
     width: 10px;
     height: 60px;
+    border-radius: 5px;
 }
 
 .ball {
     display: none;
     position: absolute;
-    justify-content: center;
     background-color: black;
     width: 10px;
     height: 10px;
     top: 50%;
     left: 50%;
     border: 2px solid black;
-
+    border-radius: 50%;
 }   
