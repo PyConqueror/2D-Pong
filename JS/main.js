@@ -161,4 +161,10 @@ function AI_paddle_movement() {
     let ball_y_position = ball_position.y_axis //get ball y_aixs current position
     let paddle_center = left_paddle.offsetHeight / 2 //to get the paddle center px
     left_paddle.style.top = (ball_y_position - paddle_center) + 'px'
+    if (left_paddle.offsetTop < 0) { //this has to be implemented so the left paddle doesnt exit the board
+        left_paddle.style.top = '0px'
+    }
+    if (left_paddle.offsetTop + left_paddle.offsetHeight > 400) {
+        left_paddle.style.top = '340px' //paddle height - board height = 340
+    }
 }
