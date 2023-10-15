@@ -26,8 +26,7 @@
 
 /*----- constants -----*/
 const WINNING_SCORE = 10
-const PADDLE_SPEED = 10
-
+const PADDLE_SPEED = 20
 /*----- app's state (variables) -----*/
 let game_status = 0 //game_status is added to make the render function exit the loop, when restart the game
 let scores
@@ -113,6 +112,7 @@ function render() {
         update_ball_heading()
         ball_collision()
         render_ball_position()
+        AI_paddle_movement()
         requestAnimationFrame(render) //keep looping the render function 
     } else {
         return
@@ -129,7 +129,7 @@ function ball_collision() {
         ball_position.y_velocity = -ball_position.y_velocity //when ball going downwards it become positive
     }                                                        //so when hit the board, deduct with y_velocity
 }                                                            //positive become negative & and negative become positive 
-                   
+              
 function render_ball_position() { //render ball position with x and y axis from the ball_position state
     ball.style.left = ball_position.x_axis + 'px'
     ball.style.top = ball_position.y_axis + 'px'
@@ -155,4 +155,10 @@ function move_paddle_down() {
     if (current_position + right_paddle.offsetHeight < 400) {  // 400 = board height, offsetHeight to get padding height in integer
         right_paddle.style.top = (current_position + PADDLE_SPEED) + 'px'
     } // if paddle current position added with paddle_speed(10) is greater than 400, it will not move
+}
+
+function AI_paddle_movement() {
+    let ball_y_position = ball_position.y_axis //get ball y_aixs current position
+    let paddle_center = left_paddle.offsetHeight / 2 //to get the paddle center px
+    left_paddle.style.top = (ball_y_position - paddle_center) + 'px'
 }
