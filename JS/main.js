@@ -28,9 +28,16 @@
 const WINNING_SCORE = 10
 
 /*----- app's state (variables) -----*/
+let game_status = 0 //game_status is added to make the render function exit the loop, when restart the game
 let scores
 let results
 let winner
+let ball_position = {
+    x_axis: 300, // x-axis 300 (half of 600px width)
+    y_axis: 200, // y-axis 200(half of 400px height)
+    x_velocity: 2, // Speed and direction of the ball on the x axis
+    y_velocity: 2  // Speed and direction of the ball on the y axis
+}
 
 /*----- cached element references -----*/
 const player_score = document.querySelector('.player_score')
@@ -46,6 +53,7 @@ play_button.addEventListener('click', init)
 /*----- functions -----*/
 
 function init() {
+    game_status = 0 //1 to run the game, 0 stop the game
     scores = { //upon calling, reset the scores to 0 
         Player : 0,
         AI : 0
@@ -56,10 +64,19 @@ function init() {
 }
 
 function reset_board() {
+    ball.style.display = 'none' // added this display style to hide the ball after restarting
     ball.style.top =  '50%' //reset the ball to middle of the board
     ball.style.left = '50%' 
     left_paddle.style.top = '50%' //reset the paddle to starting position
     right_paddle.style.top = '50%'
+    reset_ball_position()
+}
+
+function reset_ball_position() {
+    ball_position.x_axis = 300;
+    ball_position.y_axis = 200;
+    ball_position.x_velocity = 2;
+    ball_position.y_velocity = 2;
 }
 
 function update_score() {
@@ -81,13 +98,37 @@ function start_countdown() {
             setTimeout(countdown_initiate, 1000) //check if countdown is not 0, if not call the function again in 1 second
         } else {
             countdown.style.display = 'none'//hide the countdown timer from the screen
-            ball.style.display = 'block' //make ball visible  
+            game_status = 1 //start the game by change the game_status to 1
+            render()
         }
     }
 }
 
+function render() {
+    if (game_status === 1) { //check if game is running, if yes render everything.
+        ball.style.display = 'block'//make ball visible  
+        update_ball_heading()
+        ball_collision()
+        render_ball_position()
+        requestAnimationFrame(render) //keep looping the render function 
+    }else {
+        return
+    }
+}
 
+function update_ball_heading() { //very basic ball movement logic
+    ball_position.x_axis += ball_position.x_velocity
+    ball_position.y_axis += ball_position.y_velocity
+}
 
-
-
+function ball_collision() {
+    if (ball_position.y_axis <= 0|| ball_position.y_axis >= 400) {// when ball going upwards it become negative
+        ball_position.y_velocity = -ball_position.y_velocity //when ball going downwards it become positive
+    }                                                        //so when hit the board, deduct with y_velocity
+}                                                            //positive become negative & and negative become positive 
+                   
+function render_ball_position() { //render ball position with x and y axis from the ball_position state
+    ball.style.left = ball_position.x_axis + 'px'
+    ball.style.top = ball_position.y_axis + 'px'
+}
 
