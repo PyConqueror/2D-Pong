@@ -25,7 +25,7 @@
 // create a AI algo to follow ball's vertical position (left paddle)
 
 /*----- constants -----*/
-const WINNING_SCORE = 10
+const WINNING_SCORE = 5
 const PADDLE_SPEED = 20
 /*----- app's state (variables) -----*/
 let game_status = 0 //game_status is added to make the render function exit the loop, when restart the game
@@ -35,8 +35,8 @@ let winner
 let ball_position = {
     x_axis: 300, // x-axis 300 (half of 600px width)
     y_axis: 200, // y-axis 200(half of 400px height)
-    x_velocity: 5, // Speed and direction of the ball on the x axis
-    y_velocity: 5  // Speed and direction of the ball on the y axis
+    x_velocity: 50, // Speed and direction of the ball on the x axis
+    y_velocity: 50  // Speed and direction of the ball on the y axis
 }
 
 /*----- cached element references -----*/
@@ -66,6 +66,7 @@ function init() {
 }
 
 function reset_board() {
+    game_status = 0 //added game_status here to stop render loop after scoring
     ball.style.display = 'none' // added this display style to hide the ball after restarting
     ball.style.top =  '50%' //reset the ball to middle of the board
     ball.style.left = '50%' 
@@ -114,6 +115,7 @@ function render() {
         ball_collision()
         render_ball_position()
         AI_paddle_movement()
+        check_scoring()
         requestAnimationFrame(render) //keep looping the render function 
     } else {
         return
@@ -126,7 +128,7 @@ function update_ball_heading() { //very basic ball movement logic
 }
 
 function ball_collision() {
-    if (ball_position.y_axis <= 0|| ball_position.y_axis >= 400) {// when ball going upwards it become negative
+    if (ball_position.y_axis <= 0|| ball_position.y_axis >= 390) {// when ball going upwards it become negative
         ball_position.y_velocity = -ball_position.y_velocity //when ball going downwards it become positive
     }                                                        //so when hit the board, deduct with y_velocity
 }                                                            //positive become negative & and negative become positive 
@@ -144,7 +146,7 @@ function ball_collision_with_paddle() {
             ball_position.x_velocity *= -1 //by multiplying minus 1, velocity will change from 5 to -5(move to the left)
         }// all this rule is to make sure the ball bounce perfectly with the paddle, if one condition is removed, the ball will not bounce at some angle
     // check if ball collide with right paddle
-    if (ball_width_coordinate >= right_boundary &&  //if ball's right side hit right paddle's left side within the width
+    else if (ball_width_coordinate >= right_boundary &&  //if ball's right side hit right paddle's left side within the width
         ball_position.y_axis < right_paddle_vertical &&  //and ball's y_axis is before right paddle vertical coordinate
         ball_height_coordinate > right_paddle.offsetTop ) { //and ball_height_coordinate is before paddle top coordinate
             ball_position.x_velocity *= -1 //by miltiplying minus 1, velocity will change from -5 to 5(move to the right)
@@ -184,11 +186,40 @@ function AI_paddle_movement() {
     left_paddle.style.top = (ball_y_position - paddle_center) + 'px'
     if (left_paddle.offsetTop < 0) { //this has to be implemented so the left paddle doesnt exit the board
         left_paddle.style.top = '0px'
-    }
-    if (left_paddle.offsetTop + left_paddle.offsetHeight > 400) {
+    } else if (left_paddle.offsetTop + left_paddle.offsetHeight > 400) {
         left_paddle.style.top = '340px' //paddle height - board height = 340
     }
 }
 
+function check_scoring() {
+    if (ball_position.x_axis <= 0) {
+        scores.Player += 1
+        update_score()
+        if (scores.Player >= WINNING_SCORE) {
+            game_status = 0
+            winner = 'Player'
+            display_winner()
+        } else {
+            reset_board()
+            start_countdown()
+        }
+    } 
+    else if (ball_position.x_axis + ball.offsetWidth >= 600) {
+        scores.AI += 1
+        update_score()
+        if (scores.AI >= WINNING_SCORE) {
+            game_status = 0
+            winner = 'AI'
+            display_winner()
+        } else {
+            reset_board()  
+            start_countdown()
+        }
+    }
+}
 
-    
+function display_winner() {
+    countdown.innerText = 'Winner is ' + winner + '!'
+    countdown.style.display = 'block'
+    countdown.style.left = '30%' //30 for AI, 27 for player
+}
