@@ -29,6 +29,8 @@ const WINNING_SCORE = 5
 const PADDLE_SPEED = 20
 /*----- app's state (variables) -----*/
 let game_status = 0 //game_status is added to make the render function exit the loop, when restart the game
+let frame_counter = 0 //for each render loop, its 1 frame, this is added to make left paddle move every 10 frames
+let random_offset = 0 //to store the left paddle offset value until the ball hit the right paddle
 let scores
 let results
 let winner
@@ -150,6 +152,7 @@ function ball_collision_with_paddle() {
         ball_position.y_axis < right_paddle_vertical &&  //and ball's y_axis is before right paddle vertical coordinate
         ball_height_coordinate > right_paddle.offsetTop ) { //and ball_height_coordinate is before paddle top coordinate
             ball_position.x_velocity *= -1 //by miltiplying minus 1, velocity will change from -5 to 5(move to the right)
+            random_offset = Math.floor(Math.random() * 46) - 25
         }
 }
 
@@ -181,13 +184,17 @@ function move_paddle_down() {
 }
 
 function AI_paddle_movement() {
-    let ball_y_position = ball_position.y_axis //get ball y_aixs current position
-    let paddle_center = left_paddle.offsetHeight / 2 //to get the paddle center px
-    left_paddle.style.top = (ball_y_position - paddle_center) + 'px'
+    let ball_y_position = ball_position.y_axis; //get ball y_aixs current position
+    let paddle_center = left_paddle.offsetHeight / 2; //to get the paddle center px
+    frame_counter ++
+    if (frame_counter === 30){
+    left_paddle.style.top = (ball_y_position - paddle_center + random_offset) + 'px'
+    frame_counter = 0
+    }
     if (left_paddle.offsetTop < 0) { //this has to be implemented so the left paddle doesnt exit the board
-        left_paddle.style.top = '0px'
+        left_paddle.style.top = '0px';
     } else if (left_paddle.offsetTop + left_paddle.offsetHeight > 400) {
-        left_paddle.style.top = '340px' //paddle height - board height = 340
+        left_paddle.style.top = '340px'; //paddle height - board height = 340
     }
 }
 
