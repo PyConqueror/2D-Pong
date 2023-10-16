@@ -1,44 +1,17 @@
-// Start :
-// start message/prompt : Click Start to play
-
-
-// Set ball to center of the board
-// Set left_paddle (AI) to left side and centered (centered vertically in board)
-// Set right_paddle (Player) to right side and centered (centered vertically in board)
-// Set initial ball direction (center to left or right)
-// Set initial scores to 0 for both human and AI
-
-// Score limit of 10
-
-// if player reach score of 10, prompt user wins message
-// otherwise prompt user lose message
-
-// game board logic :
-// ball cannot exit top or bottom of board - reverse ball direction
-// if ball hit with left or right paddle, - reverse ball direction
-// when ball hit the paddle, play bounce sound
-// if ball passes left paddle = increase player socre by 1 
-// if ball passes right paddle = increase AI score by 1
-
-// game controls:
-// up / down button to control player's paddle (right paddle)
-// create a AI algo to follow ball's vertical position (left paddle)
-
 /*----- constants -----*/
 const WINNING_SCORE = 5
-const PADDLE_SPEED = 20
+const PADDLE_SPEED = 30
 /*----- app's state (variables) -----*/
 let game_status = 0 //game_status is added to make the render function exit the loop, when restart the game
 let frame_counter = 0 //for each render loop, its 1 frame, this is added to make left paddle move every 10 frames
-let random_offset = 0 //to store the left paddle offset value until the ball hit the right paddle
 let scores
 let results
 let winner
 let ball_position = {
     x_axis: 300, // x-axis 300 (half of 600px width)
     y_axis: 200, // y-axis 200(half of 400px height)
-    x_velocity: 50, // Speed and direction of the ball on the x axis
-    y_velocity: 50  // Speed and direction of the ball on the y axis
+    x_velocity: 3, // Speed and direction of the ball on the x axis
+    y_velocity: 3  // Speed and direction of the ball on the y axis
 }
 
 /*----- cached element references -----*/
@@ -80,8 +53,13 @@ function reset_board() {
 function reset_ball_position() {
     ball_position.x_axis = 300
     ball_position.y_axis = 200
-    ball_position.x_velocity = 2
-    ball_position.y_velocity = 2
+    if (Math.random() < 0.5) { //50 % chance for it to go either -3 or 3 (left or right)
+        ball_position.x_velocity = 3
+        ball_position.y_velocity = -3
+    } else {
+        ball_position.x_velocity = -3
+        ball_position.y_velocity = 3
+    }
 }
 
 function update_score() {
@@ -152,7 +130,6 @@ function ball_collision_with_paddle() {
         ball_position.y_axis < right_paddle_vertical &&  //and ball's y_axis is before right paddle vertical coordinate
         ball_height_coordinate > right_paddle.offsetTop ) { //and ball_height_coordinate is before paddle top coordinate
             ball_position.x_velocity *= -1 //by miltiplying minus 1, velocity will change from -5 to 5(move to the right)
-            random_offset = Math.floor(Math.random() * 46) - 25
         }
 }
 
@@ -171,30 +148,34 @@ function move_paddle(key) {
 
 function move_paddle_up() {
     let current_position = right_paddle.offsetTop //get current paddle position using offsetTop, to get only integer
-    if (current_position > 0) { //cannot be lesser than 0, if not paddle will exit the board
+    if (current_position - PADDLE_SPEED > 0) { //cannot be lesser than 0, if not paddle will exit the board
         right_paddle.style.top = (current_position - PADDLE_SPEED) + 'px'
+    } else { // if deduction of current_position and PADDLE_SPEED is less than 0, set it to 0px so it doesnt exit the board
+        right_paddle.style.top = '0px'
     }
 }
 
 function move_paddle_down() {
     let current_position = right_paddle.offsetTop 
-    if (current_position + right_paddle.offsetHeight < 400) {  // 400 = board height, offsetHeight to get padding height in integer
+    if (current_position + right_paddle.offsetHeight < 340) {  // 400 = board height, offsetHeight to get padding height in integer
         right_paddle.style.top = (current_position + PADDLE_SPEED) + 'px'
-    } // if paddle current position added with paddle_speed(10) is greater than 400, it will not move
+    } else {
+        right_paddle.style.top = '340px'// if paddle current position added with paddle_speed(10) is greater than 400, set it 340
+    }                                   //paddle height - board height = 340  
 }
 
 function AI_paddle_movement() {
-    let ball_y_position = ball_position.y_axis; //get ball y_aixs current position
-    let paddle_center = left_paddle.offsetHeight / 2; //to get the paddle center px
+    let ball_y_position = ball_position.y_axis //get ball y_aixs current position
+    let paddle_center = left_paddle.offsetHeight / 2 //to get the paddle center px
     frame_counter ++
     if (frame_counter === 30){
-    left_paddle.style.top = (ball_y_position - paddle_center + random_offset) + 'px'
+    left_paddle.style.top = (ball_y_position - paddle_center) + 'px'
     frame_counter = 0
     }
     if (left_paddle.offsetTop < 0) { //this has to be implemented so the left paddle doesnt exit the board
-        left_paddle.style.top = '0px';
+        left_paddle.style.top = '0px'
     } else if (left_paddle.offsetTop + left_paddle.offsetHeight > 400) {
-        left_paddle.style.top = '340px'; //paddle height - board height = 340
+        left_paddle.style.top = '340px' //paddle height - board height = 340
     }
 }
 
@@ -228,5 +209,4 @@ function check_scoring() {
 function display_winner() {
     countdown.innerText = 'Winner is ' + winner + '!'
     countdown.style.display = 'block'
-    countdown.style.left = '30%' //30 for AI, 27 for player
 }
