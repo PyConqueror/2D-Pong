@@ -9,6 +9,8 @@ body {
     height: 100vh;
     background-image: url('../PICTURE/background.png');
     background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
     
 }
 
