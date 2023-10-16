@@ -11,7 +11,6 @@ body {
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    
 }
 
 .title {
@@ -19,7 +18,6 @@ body {
     align-items: center;
     width: 600px;
     justify-content: center;
- 
 }
 
 .title h1 {
@@ -75,12 +73,13 @@ body {
 
 .countdown {
     position: absolute;
-    top: 40%;
+    top: 50%;
     left: 50%;
     font-size: 50px;
     text-align: center;
     display: none;
     color: white;
+    transform: translate(-50%, -50%);
 }
 
 .left_paddle {
@@ -91,6 +90,7 @@ body {
     width: 10px;
     height: 60px;
     border: 2px solid black;
+    transition: top 0.1s;
 }
 
 .right_paddle {
@@ -101,7 +101,6 @@ body {
     width: 10px;
     height: 60px;
     border: 2px solid black;
-    
 }
 
 .ball {
