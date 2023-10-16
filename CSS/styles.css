@@ -85,28 +85,31 @@ body {
     position: absolute;
     top: 50%;
     left: 0;
-    background-color: white;
+    background-color: aquamarine;
     width: 10px;
     height: 60px;
+    border: 2px solid black;
 }
 
 .right_paddle {
     position: absolute;
     top: 50%;
     right: 0; 
-    background-color: white;
+    background-color: aquamarine;
     width: 10px;
     height: 60px;
+    border: 2px solid black;
+    
 }
 
 .ball {
     display: none;
     position: absolute;
-    background-color: white;
-    width: 10px;
-    height: 10px;
+    background-color: aquamarine;
+    width: 12px;
+    height: 12px;
     top: 50%;
     left: 50%;
-    border: 2px solid white;
+    border: 2px solid aquamarine;
     border-radius: 50%;
 }   
