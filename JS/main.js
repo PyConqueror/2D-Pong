@@ -3,7 +3,6 @@ const WINNING_SCORE = 5
 const PADDLE_SPEED = 30
 /*----- app's state (variables) -----*/
 let game_status = 0 //game_status is added to make the render function exit the loop, when restart the game
-let frame_counter = 0 //for each render loop, its 1 frame, this is added to make left paddle move every 10 frames
 let scores
 let results
 let winner
@@ -53,13 +52,9 @@ function reset_board() {
 function reset_ball_position() {
     ball_position.x_axis = 300
     ball_position.y_axis = 200
-    if (Math.random() < 0.5) { //50 % chance for it to go either -3 or 3 (left or right)
-        ball_position.x_velocity = 3
-        ball_position.y_velocity = -3
-    } else {
-        ball_position.x_velocity = -3
-        ball_position.y_velocity = 3
-    }
+    const random3 = () => (Math.random() > 0.5) ? 3 : -3
+    ball_position.x_velocity = random3()
+    ball_position.y_velocity = random3()
 }
 
 function update_score() {
@@ -165,18 +160,18 @@ function move_paddle_down() {
 }
 
 function AI_paddle_movement() {
-    let ball_y_position = ball_position.y_axis //get ball y_aixs current position
-    let paddle_center = left_paddle.offsetHeight / 2 //to get the paddle center px
-    frame_counter ++
-    if (frame_counter === 30){
-    left_paddle.style.top = (ball_y_position - paddle_center) + 'px'
-    frame_counter = 0
+    const ball_current_positon = ball_position.y_axis
+    const paddle_center = left_paddle.offsetTop + left_paddle.offsetHeight / 2 //to get paddle center coordinate we add top with height and divide by 2
+    const distance_difference = ball_current_positon - paddle_center //if its postive = ball below the paddle, if its negative = ball above the paddle
+    const left_paddle_speed = 10
+    let move_amount = Math.max(-left_paddle_speed, Math.min(left_paddle_speed, distance_difference))// Calculate the direction of the paddle movement based on distance_difference. and within the ai_paddle_speed
+    let new_paddle_position = left_paddle.offsetTop + move_amount
+    if (new_paddle_position < 0) {
+        new_paddle_position = 0
+    } else if (new_paddle_position + left_paddle.offsetHeight > 400) {
+        new_paddle_position = '340px' //if new_paddle_position with paddle height exceeds 400(board heihgt), set limit to 340px.
     }
-    if (left_paddle.offsetTop < 0) { //this has to be implemented so the left paddle doesnt exit the board
-        left_paddle.style.top = '0px'
-    } else if (left_paddle.offsetTop + left_paddle.offsetHeight > 400) {
-        left_paddle.style.top = '340px' //paddle height - board height = 340
-    }
+    left_paddle.style.top = new_paddle_position + 'px'
 }
 
 function check_scoring() {
