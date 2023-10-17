@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Pixelify+Sans&family=Poiret+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
 body {
     font-family:'Pixelify Sans', sans-serif;
@@ -53,12 +54,35 @@ body {
     font-size: 50px; 
     width: 50%;
     text-align: center;
-    color: rgb(165, 66, 208);
+    color: rgb(135, 42, 135);
 }
 
 .play_button {
-    margin: 20px;
+    font-family: 'Pixelify Sans', sans-serif; /* Using the same pixel font you imported earlier */
+    display: inline-block;
+    padding: 10px 20px;
+    color: white;
+    background-color: rgb(135, 42, 135); /* Adjust this to the color you desire */
+    border: 4px solid aquamarine; /* Thick black border */
+    box-shadow: 4px 4px black; /* Shadow to give it the 3D look */
+    text-transform: uppercase; /* Converts text to uppercase */
+    text-align: center;
+    text-decoration: none; /* Removes underline for <a> tags */
+    position: relative;
     cursor: pointer;
+    transition: top 0.1s;
+    font-size: 20px;
+    margin-bottom: 20px; /* Adds a quick shift on click */
+}
+
+.play_button:hover {
+    background-color: aquamarine;
+    color: black; /* Slightly darker shade on hover */
+}
+
+.play_button:active {
+    top: 4px; /* Moves the button down on click */
+    box-shadow: none; /* Removes the shadow on click */
 }
 
 .board {
@@ -80,6 +104,7 @@ body {
     display: none;
     color: white;
     transform: translate(-50%, -50%);
+    color: aquamarine;
 }
 
 .left_paddle {
@@ -107,10 +132,10 @@ body {
     display: none;
     position: absolute;
     background-color: aquamarine;
-    width: 12px;
-    height: 12px;
+    width: 15px;
+    height: 15px;
     top: 50%;
     left: 50%;
-    border: 2px solid aquamarine;
+    border: 2px solid black;
     border-radius: 50%;
 }   
