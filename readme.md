@@ -52,6 +52,9 @@ Additionally, it has preloaded audio clips for various game events like paddle b
 - `check_scoring()`: Checks and updates the score after each round.
 - `display_winner()`: Displays the winner of the game.
 
+## Examples
+![Pong Image](PICTURE/picture.png)
+
 ## Technologies
 ### Software Used:
 - Microsoft VS Code : Version 1.83.0
@@ -74,11 +77,12 @@ Additionally, it has preloaded audio clips for various game events like paddle b
 4. Score a point each time the ball passes the AI's paddle.
 5. The first player to reach the **WINNING_SCORE** wins the game.
 
-
 ## Known Bugs
 - The ball will not bounce from the paddle at certain angle
+
 ## What can be improved
 - Add level of difficulties
 - Add Multiplayer support
+
 ## Other
 This Project was created under course "Software Engineering Immersive" presented by student of General Assembly Australia
