@@ -192,7 +192,7 @@ function check_scoring() {
             winner = 'Player'
             win_sound.play()
             display_winner()
-        } else {
+        } else { //reset the board and start countdown again if player scores
             reset_board()
             start_countdown()
         }
@@ -206,7 +206,7 @@ function check_scoring() {
             winner = 'AI'
             lose_sound.play()
             display_winner()
-        } else {
+        } else { //reset the board and start countdown again if AI scores
             reset_board()  
             start_countdown()
         }
