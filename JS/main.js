@@ -21,14 +21,19 @@ const right_paddle = document.querySelector('.right_paddle')
 const ball = document.querySelector('.ball')
 const play_button = document.querySelector('#start_button')
 const countdown = document.querySelector('.countdown')
-
+const paddle_bounce_sound = new Audio('../AUDIO/paddle.wav')
+const board_bounce_sound = new Audio('../AUDIO/board.wav')
+const button_click_sound = new Audio('../AUDIO/button.wav')
+const score_sound = new Audio('../AUDIO/score.wav')
+const win_sound = new Audio('../AUDIO/win.wav')
+const lose_sound = new Audio('../AUDIO/lose.wav')
 /*----- event listeners -----*/
 play_button.addEventListener('click', init)
 document.addEventListener('keydown', move_paddle)
-
 /*----- functions -----*/
 
 function init() {
+    button_click_sound.play()
     game_status = 0 //1 to run the game, 0 stop the game
     scores = { //upon calling, reset the scores to 0 
         Player : 0,
@@ -66,7 +71,7 @@ function start_countdown() {
     play_button.innerText = 'Restart Game' //once button clicked change to Restart Game
     countdown.innerText = 3 //set the initial countdown to 3
     countdown.style.display = 'block' //upon calling make the countdown timer visible on the screen
-    let countdown_timer = 3
+    let countdown_timer = 4
     countdown_initiate() //this function will deduct 1 from the countdown_timer every 1 second
 
     function countdown_initiate(){
@@ -105,8 +110,9 @@ function update_ball_heading() { //very basic ball movement logic
 function ball_collision() {
     if (ball_position.y_axis <= 0|| ball_position.y_axis >= 390) {// when ball going upwards it become negative
         ball_position.y_velocity = -ball_position.y_velocity //when ball going downwards it become positive
-    }                                                        //so when hit the board, deduct with y_velocity
-}                                                            //positive become negative & and negative become positive 
+        board_bounce_sound.play()                            //so when hit the board, deduct with y_velocity
+    }                                                        //positive become negative & and negative become positive 
+    }                                                        
 
 function ball_collision_with_paddle() {
     const ball_width_coordinate = ball_position.x_axis + ball.offsetWidth //by adding x_axis + width = rightmost coordinate
@@ -119,12 +125,14 @@ function ball_collision_with_paddle() {
         ball_position.y_axis < left_paddle_vertical && //and ball y_axis is before left paddle vertical coordinate
         ball_height_coordinate > left_paddle.offsetTop) { //and ball_height_coordinate is before paddle top coordinate
             ball_position.x_velocity *= -1 //by multiplying minus 1, velocity will change from 5 to -5(move to the left)
+            paddle_bounce_sound.play()
         }// all this rule is to make sure the ball bounce perfectly with the paddle, if one condition is removed, the ball will not bounce at some angle
     // check if ball collide with right paddle
     else if (ball_width_coordinate >= right_boundary &&  //if ball's right side hit right paddle's left side within the width
         ball_position.y_axis < right_paddle_vertical &&  //and ball's y_axis is before right paddle vertical coordinate
         ball_height_coordinate > right_paddle.offsetTop ) { //and ball_height_coordinate is before paddle top coordinate
             ball_position.x_velocity *= -1 //by miltiplying minus 1, velocity will change from -5 to 5(move to the right)
+            paddle_bounce_sound.play()
         }
 }
 
@@ -176,11 +184,13 @@ function AI_paddle_movement() {
 
 function check_scoring() {
     if (ball_position.x_axis <= 0) {
+        score_sound.play()
         scores.Player += 1
         update_score()
         if (scores.Player >= WINNING_SCORE) {
             game_status = 0
             winner = 'Player'
+            win_sound.play()
             display_winner()
         } else {
             reset_board()
@@ -188,11 +198,13 @@ function check_scoring() {
         }
     } 
     else if (ball_position.x_axis + ball.offsetWidth >= 600) {
+        score_sound.play()
         scores.AI += 1
         update_score()
         if (scores.AI >= WINNING_SCORE) {
             game_status = 0
             winner = 'AI'
+            lose_sound.play()
             display_winner()
         } else {
             reset_board()  
