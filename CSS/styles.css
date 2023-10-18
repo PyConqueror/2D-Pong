@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Pixelify+Sans&family=Poiret+One&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
-@import 'animate.css';
+
 body {
     font-family:'Pixelify Sans', sans-serif;
     display: flex; /* Flex to make all elements stacked vertically*/
