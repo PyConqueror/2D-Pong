@@ -80,8 +80,8 @@ body {
     transition: top 0.1s;
     font-size: 20px;
     margin-bottom: 20px;
-    animation: bounceInRight; /* referring directly to the animation's @keyframe declaration */
-    animation-duration: 3s; /* don't forget to set a duration! */
+    animation: bounceInRight;
+    animation-duration: 3s; 
 }
 
 .play_button:hover {
