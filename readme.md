@@ -71,6 +71,8 @@ Additionally, it has preloaded audio clips for various game events like paddle b
 
 ## How to Play
 
+Go to : https://pyconqueror.github.io/2D-Pong/
+
 1. Click the "Start Game" button.
 2. Use the `ArrowUp` and `ArrowDown` keys to move your paddle.
 3. Try to hit the ball with your paddle to send it towards the AI's side.
